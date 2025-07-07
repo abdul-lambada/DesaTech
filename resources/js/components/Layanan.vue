@@ -1,12 +1,14 @@
 <template>
     <div>
         <!-- Hero Section -->
+        <transition name="fade-slide">
         <section class="bg-gradient-to-r from-green-600 to-blue-600 text-white py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                 <h1 class="text-4xl md:text-5xl font-bold mb-4">Layanan Desa</h1>
                 <p class="text-xl opacity-90">Akses layanan publik dengan mudah dan cepat</p>
             </div>
         </section>
+        </transition>
 
         <!-- Service Categories -->
         <section class="py-16 bg-white">
@@ -15,10 +17,11 @@
                     <h2 class="section-title">Kategori Layanan</h2>
                     <p class="text-gray-600">Pilih layanan yang Anda butuhkan</p>
                 </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div v-for="category in serviceCategories" :key="category.name" 
+                <transition-group name="fade-slide" tag="div" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div v-for="(category, index) in serviceCategories" :key="category.name"
                          class="card text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer"
+                         :style="{ transitionDelay: (index * 100) + 'ms' }"
+                         data-aos="fade-up"
                          @click="selectedCategory = category.name">
                         <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                             <component :is="category.icon" class="w-8 h-8 text-green-600" />
@@ -27,7 +30,7 @@
                         <p class="text-gray-600 mb-4">{{ category.description }}</p>
                         <div class="text-sm text-green-600 font-medium">{{ category.count }} layanan tersedia</div>
                     </div>
-                </div>
+                </transition-group>
             </div>
         </section>
 
@@ -38,10 +41,11 @@
                     <h2 class="section-title">Pelayanan Surat</h2>
                     <p class="text-gray-600">Layanan administrasi dan surat-menyurat</p>
                 </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div v-for="service in letterServices" :key="service.name" 
-                         class="card hover:shadow-lg transition-shadow duration-300">
+                <transition-group name="fade-slide" tag="div" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div v-for="(service, index) in letterServices" :key="service.name"
+                         class="card hover:shadow-lg transition-shadow duration-300"
+                         :style="{ transitionDelay: (index * 100) + 'ms' }"
+                         data-aos="fade-up">
                         <div class="flex items-start justify-between mb-4">
                             <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
                                 <component :is="service.icon" class="w-6 h-6 text-blue-600" />
@@ -62,12 +66,12 @@
                                 </ul>
                             </div>
                         </div>
-                        <button @click="openServiceModal(service)" 
-                                class="w-full btn-primary">
+                        <button @click="openServiceModal(service)"
+                                class="w-full btn-primary hover:scale-105 transition-transform duration-300">
                             Ajukan Permohonan
                         </button>
                     </div>
-                </div>
+                </transition-group>
             </div>
         </section>
 
@@ -78,7 +82,6 @@
                     <h2 class="section-title">Pengajuan Proposal & Aspirasi</h2>
                     <p class="text-gray-600">Sampaikan usulan dan aspirasi Anda untuk kemajuan desa</p>
                 </div>
-                
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
                     <!-- Proposal Form -->
                     <div class="card">
@@ -134,32 +137,32 @@
                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                             </div>
                             
-                            <button type="submit" class="w-full btn-primary">
+                            <button type="submit" class="w-full btn-primary hover:scale-105 transition-transform duration-300">
                                 Kirim Proposal
                             </button>
                         </form>
                     </div>
-
                     <!-- Recent Proposals -->
-                    <div>
-                        <h3 class="text-xl font-semibold mb-6">Proposal Terbaru</h3>
-                        <div class="space-y-4">
-                            <div v-for="proposal in recentProposals" :key="proposal.id" 
-                                 class="card hover:shadow-md transition-shadow duration-300">
-                                <div class="flex items-start justify-between mb-2">
-                                    <h4 class="font-semibold">{{ proposal.title }}</h4>
-                                    <span class="text-xs px-2 py-1 rounded-full"
-                                          :class="getStatusClass(proposal.status)">
-                                        {{ proposal.status }}
-                                    </span>
-                                </div>
-                                <p class="text-sm text-gray-600 mb-3">{{ proposal.description }}</p>
-                                <div class="flex items-center justify-between text-xs text-gray-500">
-                                    <span>{{ proposal.date }}</span>
-                                    <span>{{ proposal.type }}</span>
-                                </div>
+                    <div class="space-y-4">
+                      <transition-group name="fade-slide" tag="div">
+                        <div v-for="(proposal, index) in recentProposals" :key="proposal.id" 
+                             class="card hover:shadow-md transition-shadow duration-300"
+                             :style="{ transitionDelay: (index * 100) + 'ms' }"
+                             data-aos="fade-up">
+                            <div class="flex items-start justify-between mb-2">
+                                <h4 class="font-semibold">{{ proposal.title }}</h4>
+                                <span class="text-xs px-2 py-1 rounded-full"
+                                      :class="getStatusClass(proposal.status)">
+                                    {{ proposal.status }}
+                                </span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">{{ proposal.description }}</p>
+                            <div class="flex items-center justify-between text-xs text-gray-500">
+                                <span>{{ proposal.date }}</span>
+                                <span>{{ proposal.type }}</span>
                             </div>
                         </div>
+                      </transition-group>
                     </div>
                 </div>
             </div>
@@ -252,10 +255,10 @@
                     </div>
                     
                     <div class="flex space-x-3">
-                        <button @click="closeServiceModal" class="flex-1 btn-secondary">
+                        <button @click="closeServiceModal" class="flex-1 btn-secondary hover:scale-105 transition-transform duration-300">
                             Batal
                         </button>
-                        <button @click="startService" class="flex-1 btn-primary">
+                        <button @click="startService" class="flex-1 btn-primary hover:scale-105 transition-transform duration-300">
                             Mulai Layanan
                         </button>
                     </div>
@@ -466,3 +469,17 @@ export default {
     }
 }
 </script> 
+
+<style scoped>
+.fade-slide-enter-active, .fade-slide-leave-active {
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.fade-slide-enter-from, .fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(40px);
+}
+.fade-slide-enter-to, .fade-slide-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style> 

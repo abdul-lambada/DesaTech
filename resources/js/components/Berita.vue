@@ -1,17 +1,20 @@
 <template>
     <div>
         <!-- Hero Section -->
+        <transition name="fade-slide">
         <section class="bg-gradient-to-r from-orange-600 to-red-600 text-white py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                 <h1 class="text-4xl md:text-5xl font-bold mb-4">Berita & Informasi</h1>
                 <p class="text-xl opacity-90">Informasi terkini seputar desa dan kegiatan masyarakat</p>
             </div>
         </section>
+        </transition>
 
         <!-- News Categories -->
         <section class="py-8 bg-white border-b">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex flex-wrap gap-4 justify-center">
+                    <transition-group name="fade-slide" tag="div">
                     <button v-for="category in newsCategories" :key="category.name"
                             @click="selectedCategory = category.name"
                             class="px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200"
@@ -20,6 +23,7 @@
                                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'">
                         {{ category.name }}
                     </button>
+                    </transition-group>
                 </div>
             </div>
         </section>
@@ -37,10 +41,11 @@
                         </select>
                     </div>
                 </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <article v-for="news in filteredNews" :key="news.id" 
-                             class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                <transition-group name="fade-slide" tag="div" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <article v-for="(news, index) in filteredNews" :key="news.id" 
+                             class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
+                             :style="{ transitionDelay: (index * 100) + 'ms' }"
+                             data-aos="fade-up">
                         <img :src="news.image" :alt="news.title" 
                              class="w-full h-48 object-cover">
                         <div class="p-6">
@@ -76,7 +81,7 @@
                             </div>
                         </div>
                     </article>
-                </div>
+                </transition-group>
                 
                 <!-- Load More Button -->
                 <div class="text-center mt-12">
@@ -537,5 +542,17 @@ export default {
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+}
+
+.fade-slide-enter-active, .fade-slide-leave-active {
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.fade-slide-enter-from, .fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(40px);
+}
+.fade-slide-enter-to, .fade-slide-leave-from {
+  opacity: 1;
+  transform: translateY(0);
 }
 </style> 

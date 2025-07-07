@@ -1,12 +1,14 @@
 <template>
     <div>
         <!-- Hero Section -->
+        <transition name="fade-slide">
         <section class="bg-gradient-to-r from-teal-600 to-blue-600 text-white py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                 <h1 class="text-4xl md:text-5xl font-bold mb-4">Transparansi</h1>
                 <p class="text-xl opacity-90">Informasi keuangan dan pengelolaan anggaran desa yang transparan</p>
             </div>
         </section>
+        </transition>
 
         <!-- Transparency Overview -->
         <section class="py-16 bg-white">
@@ -15,15 +17,16 @@
                     <h2 class="section-title">Indikator Transparansi</h2>
                     <p class="text-gray-600">Tingkat transparansi dan akuntabilitas pengelolaan desa</p>
                 </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                    <div v-for="indicator in transparencyIndicators" :key="indicator.name" 
-                         class="text-center p-6 bg-gradient-to-br from-teal-50 to-blue-50 rounded-lg">
+                <transition-group name="fade-slide" tag="div" class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div v-for="(indicator, index) in transparencyIndicators" :key="indicator.name" 
+                         class="text-center p-6 bg-gradient-to-br from-teal-50 to-blue-50 rounded-lg"
+                         :style="{ transitionDelay: (index * 100) + 'ms' }"
+                         data-aos="fade-up">
                         <div class="text-3xl md:text-4xl font-bold text-teal-600 mb-2">{{ indicator.value }}</div>
                         <div class="text-gray-600 mb-2">{{ indicator.name }}</div>
                         <div class="text-xs text-gray-500">{{ indicator.description }}</div>
                     </div>
-                </div>
+                </transition-group>
             </div>
         </section>
 
@@ -40,8 +43,10 @@
                     <div class="card">
                         <h3 class="text-xl font-semibold mb-6">Ringkasan Anggaran</h3>
                         <div class="space-y-6">
-                            <div v-for="budget in budgetOverview" :key="budget.type" 
-                                 class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                            <div v-for="(budget, index) in budgetOverview" :key="budget.type" 
+                                 class="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
+                                 data-aos="fade-up"
+                                 :style="{ transitionDelay: (index * 100) + 'ms' }">
                                 <div>
                                     <h4 class="font-semibold">{{ budget.type }}</h4>
                                     <p class="text-sm text-gray-600">{{ budget.description }}</p>
@@ -58,8 +63,10 @@
                     <div class="card">
                         <h3 class="text-xl font-semibold mb-6">Distribusi Anggaran</h3>
                         <div class="space-y-4">
-                            <div v-for="category in budgetCategories" :key="category.name" 
-                                 class="flex items-center justify-between">
+                            <div v-for="(category, index) in budgetCategories" :key="category.name" 
+                                 class="flex items-center justify-between"
+                                 data-aos="fade-up"
+                                 :style="{ transitionDelay: (index * 100) + 'ms' }">
                                 <div class="flex items-center">
                                     <div class="w-4 h-4 rounded-full mr-3" :class="category.color"></div>
                                     <span class="font-medium">{{ category.name }}</span>
@@ -99,8 +106,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="realization in budgetRealization" :key="realization.category" 
-                                class="hover:bg-gray-50">
+                            <tr v-for="(realization, index) in budgetRealization" :key="realization.category" 
+                                class="hover:bg-gray-50"
+                                data-aos="fade-up"
+                                :style="{ transitionDelay: (index * 100) + 'ms' }">
                                 <td class="p-4 border-b font-medium">{{ realization.category }}</td>
                                 <td class="p-4 border-b text-right">{{ realization.planned }}</td>
                                 <td class="p-4 border-b text-right">{{ realization.actual }}</td>
@@ -135,8 +144,10 @@
                     <div class="card">
                         <h3 class="text-xl font-semibold mb-6">Program Bantuan</h3>
                         <div class="space-y-4">
-                            <div v-for="program in assistancePrograms" :key="program.name" 
-                                 class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                            <div v-for="(program, index) in assistancePrograms" :key="program.name" 
+                                 class="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
+                                 data-aos="fade-up"
+                                 :style="{ transitionDelay: (index * 100) + 'ms' }">
                                 <div>
                                     <h4 class="font-semibold">{{ program.name }}</h4>
                                     <p class="text-sm text-gray-600">{{ program.description }}</p>
@@ -153,8 +164,10 @@
                     <div class="card">
                         <h3 class="text-xl font-semibold mb-6">Penerima Berdasarkan Kategori</h3>
                         <div class="space-y-4">
-                            <div v-for="category in recipientCategories" :key="category.name" 
-                                 class="flex items-center justify-between">
+                            <div v-for="(category, index) in recipientCategories" :key="category.name" 
+                                 class="flex items-center justify-between"
+                                 data-aos="fade-up"
+                                 :style="{ transitionDelay: (index * 100) + 'ms' }">
                                 <span class="font-medium">{{ category.name }}</span>
                                 <div class="flex items-center space-x-4">
                                     <div class="w-32 bg-gray-200 rounded-full h-3">
@@ -180,8 +193,10 @@
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div v-for="report in financialReports" :key="report.name" 
-                         class="card hover:shadow-lg transition-shadow duration-300">
+                    <div v-for="(report, index) in financialReports" :key="report.name" 
+                         class="card hover:shadow-lg transition-shadow duration-300"
+                         data-aos="fade-up"
+                         :style="{ transitionDelay: (index * 100) + 'ms' }">
                         <div class="flex items-start justify-between mb-4">
                             <div class="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center">
                                 <component :is="report.icon" class="w-6 h-6 text-teal-600" />
@@ -196,7 +211,9 @@
                             <span>{{ report.date }}</span>
                             <span>{{ report.size }}</span>
                         </div>
-                        <button class="w-full btn-primary bg-teal-600 hover:bg-teal-700">
+                        <button class="w-full btn-primary bg-teal-600 hover:bg-teal-700"
+                                data-aos="fade-up"
+                                :style="{ transitionDelay: (index * 100) + 'ms' }">
                             Download PDF
                         </button>
                     </div>
@@ -231,8 +248,10 @@
                     <div class="card">
                         <h3 class="text-xl font-semibold mb-6">Skor Detail</h3>
                         <div class="space-y-4">
-                            <div v-for="score in detailedScores" :key="score.aspect" 
-                                 class="flex items-center justify-between">
+                            <div v-for="(score, index) in detailedScores" :key="score.aspect" 
+                                 class="flex items-center justify-between"
+                                 data-aos="fade-up"
+                                 :style="{ transitionDelay: (index * 100) + 'ms' }">
                                 <span class="font-medium">{{ score.aspect }}</span>
                                 <div class="flex items-center space-x-4">
                                     <div class="w-32 bg-gray-200 rounded-full h-3">
@@ -258,8 +277,10 @@
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div v-for="info in publicInformation" :key="info.name" 
-                         class="card hover:shadow-lg transition-shadow duration-300">
+                    <div v-for="(info, index) in publicInformation" :key="info.name" 
+                         class="card hover:shadow-lg transition-shadow duration-300"
+                         data-aos="fade-up"
+                         :style="{ transitionDelay: (index * 100) + 'ms' }">
                         <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
                             <component :is="info.icon" class="w-6 h-6 text-blue-600" />
                         </div>
@@ -509,3 +530,17 @@ export default {
     }
 }
 </script> 
+
+<style scoped>
+.fade-slide-enter-active, .fade-slide-leave-active {
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.fade-slide-enter-from, .fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(40px);
+}
+.fade-slide-enter-to, .fade-slide-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style> 

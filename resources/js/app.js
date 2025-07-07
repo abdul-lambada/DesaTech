@@ -13,6 +13,8 @@ import Kontak from './components/Kontak.vue';
 
 // Import layouts
 import MainLayout from './layouts/MainLayout.vue';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 // Create router
 const routes = [
@@ -51,3 +53,10 @@ app.use(router);
 
 // Mount app
 app.mount('#app');
+
+// Inisialisasi AOS setelah mount
+AOS.init({
+  once: true,
+  duration: 700,
+  easing: 'ease-out-cubic',
+});

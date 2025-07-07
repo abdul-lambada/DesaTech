@@ -1,31 +1,25 @@
 <template>
     <div>
         <!-- Hero Section -->
+        <transition name="fade-slide">
         <section class="bg-gradient-to-r from-blue-600 to-green-600 text-white py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                 <h1 class="text-4xl md:text-5xl font-bold mb-4">Profil Desa</h1>
                 <p class="text-xl opacity-90">Mengenal lebih dekat desa kami</p>
             </div>
         </section>
+        </transition>
 
         <!-- Village Overview -->
         <section class="py-16 bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                    <div>
-                        <h2 class="section-title">Desa Maju Bersama</h2>
-                        <p class="text-gray-600 mb-6">
-                            Desa kami adalah desa yang terletak di kecamatan yang subur dan strategis. 
-                            Dengan luas wilayah 12.5 km², desa ini dihuni oleh 2,847 jiwa yang tersebar 
-                            dalam 756 kepala keluarga.
-                        </p>
-                        <div class="grid grid-cols-2 gap-6">
-                            <div v-for="stat in villageStats" :key="stat.label" class="text-center p-4 bg-gray-50 rounded-lg">
-                                <div class="text-2xl font-bold text-blue-600 mb-1">{{ stat.value }}</div>
-                                <div class="text-sm text-gray-600">{{ stat.label }}</div>
-                            </div>
-                        </div>
+                    <transition-group name="fade-slide" tag="div">
+                    <div v-for="(stat, index) in villageStats" :key="stat.label" class="text-center p-4 bg-gray-50 rounded-lg" :style="{ transitionDelay: (index * 100) + 'ms' }" data-aos="fade-up">
+                        <div class="text-2xl font-bold text-blue-600 mb-1">{{ stat.value }}</div>
+                        <div class="text-sm text-gray-600">{{ stat.label }}</div>
                     </div>
+                    </transition-group>
                     <div class="relative">
                         <img src="https://images.unsplash.com/photo-1545459720-aac8509eb02c?w=600&h=400&fit=crop" 
                              alt="Desa" class="rounded-lg shadow-lg">
@@ -42,12 +36,11 @@
                     <h2 class="section-title">Sejarah Desa</h2>
                     <p class="text-gray-600">Perjalanan panjang desa kami dari masa ke masa</p>
                 </div>
-                
                 <div class="relative">
                     <div class="absolute left-8 top-0 bottom-0 w-0.5 bg-blue-200"></div>
-                    <div class="space-y-8">
+                    <transition-group name="fade-slide" tag="div" class="space-y-8">
                         <div v-for="(event, index) in historyEvents" :key="index" 
-                             class="relative flex items-start space-x-8">
+                             class="relative flex items-start space-x-8" :style="{ transitionDelay: (index * 100) + 'ms' }" data-aos="fade-up">
                             <div class="flex-shrink-0 w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
                                 {{ event.year }}
                             </div>
@@ -56,7 +49,7 @@
                                 <p class="text-gray-600">{{ event.description }}</p>
                             </div>
                         </div>
-                    </div>
+                    </transition-group>
                 </div>
             </div>
         </section>
@@ -115,20 +108,29 @@
                     <h2 class="section-title">Struktur Pemerintahan</h2>
                     <p class="text-gray-600">Organisasi dan kepengurusan desa</p>
                 </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div v-for="position in governmentStructure" :key="position.title" 
-                         class="card text-center hover:shadow-lg transition-shadow duration-300">
-                        <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg class="w-10 h-10 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                            </svg>
+                <Swiper
+                    v-if="governmentStructure && governmentStructure.length"
+                    :slides-per-view="1"
+                    :space-between="24"
+                    :breakpoints="{ 640: { slidesPerView: 1 }, 768: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }"
+                    navigation
+                    pagination
+                    :autoplay="{ delay: 2500, disableOnInteraction: false }"
+                    class="pb-8"
+                >
+                    <SwiperSlide v-for="(position, index) in governmentStructure" :key="position.title">
+                        <div class="card text-center hover:shadow-lg transition-shadow duration-300">
+                            <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-10 h-10 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-semibold mb-2">{{ position.title }}</h3>
+                            <p class="text-blue-600 font-medium mb-2">{{ position.name }}</p>
+                            <p class="text-sm text-gray-600">{{ position.period }}</p>
                         </div>
-                        <h3 class="text-lg font-semibold mb-2">{{ position.title }}</h3>
-                        <p class="text-blue-600 font-medium mb-2">{{ position.name }}</p>
-                        <p class="text-sm text-gray-600">{{ position.period }}</p>
-                    </div>
-                </div>
+                    </SwiperSlide>
+                </Swiper>
             </div>
         </section>
 
@@ -139,10 +141,9 @@
                     <h2 class="section-title">Wilayah Administratif</h2>
                     <p class="text-gray-600">Pembagian wilayah desa berdasarkan RT/RW</p>
                 </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div v-for="area in administrativeAreas" :key="area.rw" 
-                         class="card hover:shadow-lg transition-shadow duration-300">
+                <transition-group name="fade-slide" tag="div" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div v-for="(area, index) in administrativeAreas" :key="area.rw" 
+                         class="card hover:shadow-lg transition-shadow duration-300" :style="{ transitionDelay: (index * 100) + 'ms' }" data-aos="fade-up">
                         <h3 class="text-lg font-semibold mb-4 text-blue-600">RW {{ area.rw }}</h3>
                         <div class="space-y-3">
                             <div v-for="rt in area.rts" :key="rt.number" 
@@ -158,7 +159,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </transition-group>
             </div>
         </section>
 
@@ -169,19 +170,15 @@
                     <h2 class="section-title">Data Geografis</h2>
                     <p class="text-gray-600">Informasi geografis dan topografi desa</p>
                 </div>
-                
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                    <!-- Map/Image -->
                     <div class="relative">
                         <img src="https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?w=600&h=400&fit=crop" 
                              alt="Peta Desa" class="rounded-lg shadow-lg w-full">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent rounded-lg"></div>
                     </div>
-
-                    <!-- Data -->
-                    <div class="space-y-6">
-                        <div v-for="data in geographicalData" :key="data.label" 
-                             class="flex items-center justify-between p-4 bg-white rounded-lg shadow-sm">
+                    <transition-group name="fade-slide" tag="div" class="space-y-6">
+                        <div v-for="(data, index) in geographicalData" :key="data.label" 
+                             class="flex items-center justify-between p-4 bg-white rounded-lg shadow-sm" :style="{ transitionDelay: (index * 100) + 'ms' }" data-aos="fade-up">
                             <div class="flex items-center space-x-3">
                                 <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
                                     <component :is="data.icon" class="w-5 h-5 text-blue-600" />
@@ -190,7 +187,7 @@
                             </div>
                             <span class="text-lg font-semibold text-gray-800">{{ data.value }}</span>
                         </div>
-                    </div>
+                    </transition-group>
                 </div>
             </div>
         </section>
@@ -198,8 +195,18 @@
 </template>
 
 <script>
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { Autoplay, Navigation, Pagination } from 'swiper';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
 export default {
     name: 'ProfilDesa',
+    components: {
+        Swiper,
+        SwiperSlide
+    },
     data() {
         return {
             villageStats: [
@@ -367,3 +374,17 @@ export default {
     }
 }
 </script> 
+
+<style scoped>
+.fade-slide-enter-active, .fade-slide-leave-active {
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.fade-slide-enter-from, .fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(40px);
+}
+.fade-slide-enter-to, .fade-slide-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style> 

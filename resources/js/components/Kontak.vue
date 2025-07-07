@@ -1,12 +1,14 @@
 <template>
     <div>
         <!-- Hero Section -->
+        <transition name="fade-slide">
         <section class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                 <h1 class="text-4xl md:text-5xl font-bold mb-4">Kontak & Lokasi</h1>
                 <p class="text-xl opacity-90">Hubungi kami dan temukan lokasi desa</p>
             </div>
         </section>
+        </transition>
 
         <!-- Quick Contact -->
         <section class="py-16 bg-white">
@@ -15,10 +17,11 @@
                     <h2 class="section-title">Kontak Cepat</h2>
                     <p class="text-gray-600">Hubungi kami melalui berbagai saluran komunikasi</p>
                 </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div v-for="contact in quickContacts" :key="contact.type" 
-                         class="text-center p-6 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-lg">
+                <transition-group name="fade-slide" tag="div" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div v-for="(contact, index) in quickContacts" :key="contact.type" 
+                         class="text-center p-6 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-lg"
+                         :style="{ transitionDelay: (index * 100) + 'ms' }"
+                         data-aos="fade-up">
                         <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
                             <component :is="contact.icon" class="w-8 h-8 text-indigo-600" />
                         </div>
@@ -29,7 +32,7 @@
                                  class="text-indigo-600 font-medium">{{ info }}</div>
                         </div>
                     </div>
-                </div>
+                </transition-group>
             </div>
         </section>
 
@@ -53,7 +56,7 @@
                                 <p class="text-sm text-gray-400">Klik untuk melihat peta lengkap</p>
                             </div>
                         </div>
-                        <button class="absolute bottom-4 right-4 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors duration-200">
+                        <button class="absolute bottom-4 right-4 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors duration-200 hover:scale-105 hover:shadow-xl transition-transform duration-300">
                             Lihat Peta Lengkap
                         </button>
                     </div>
@@ -63,8 +66,10 @@
                         <div class="card">
                             <h3 class="text-xl font-semibold mb-4">Informasi Lokasi</h3>
                             <div class="space-y-4">
-                                <div v-for="info in locationInfo" :key="info.label" 
-                                     class="flex items-start space-x-3">
+                                <div v-for="(info, index) in locationInfo" :key="info.label" 
+                                     class="flex items-start space-x-3"
+                                     :style="{ transitionDelay: (index * 100) + 'ms' }"
+                                     data-aos="fade-up">
                                     <div class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
                                         <component :is="info.icon" class="w-4 h-4 text-indigo-600" />
                                     </div>
@@ -79,8 +84,10 @@
                         <div class="card">
                             <h3 class="text-xl font-semibold mb-4">Batas Wilayah</h3>
                             <div class="space-y-3">
-                                <div v-for="boundary in boundaries" :key="boundary.direction" 
-                                     class="flex justify-between items-center">
+                                <div v-for="(boundary, index) in boundaries" :key="boundary.direction" 
+                                     class="flex justify-between items-center"
+                                     :style="{ transitionDelay: (index * 100) + 'ms' }"
+                                     data-aos="fade-up">
                                     <span class="font-medium">{{ boundary.direction }}</span>
                                     <span class="text-gray-600">{{ boundary.area }}</span>
                                 </div>
@@ -100,8 +107,10 @@
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div v-for="official in villageOfficials" :key="official.name" 
-                         class="card text-center hover:shadow-lg transition-shadow duration-300">
+                    <div v-for="(official, index) in villageOfficials" :key="official.name" 
+                         class="card text-center hover:shadow-lg transition-shadow duration-300"
+                         :style="{ transitionDelay: (index * 100) + 'ms' }"
+                         data-aos="fade-up">
                         <div class="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
                             <svg class="w-10 h-10 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
@@ -215,7 +224,7 @@
                         </div>
                         
                         <div class="text-center">
-                            <button type="submit" class="btn-primary bg-indigo-600 hover:bg-indigo-700 px-8 py-3">
+                            <button type="submit" class="btn-primary bg-indigo-600 hover:bg-indigo-700 px-8 py-3 hover:scale-105 hover:shadow-xl transition-transform duration-300">
                                 Kirim Pesan
                             </button>
                         </div>
@@ -235,8 +244,10 @@
                 <div class="max-w-2xl mx-auto">
                     <div class="card">
                         <div class="space-y-4">
-                            <div v-for="schedule in officeSchedule" :key="schedule.day" 
-                                 class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                            <div v-for="(schedule, index) in officeSchedule" :key="schedule.day" 
+                                 class="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
+                                 :style="{ transitionDelay: (index * 100) + 'ms' }"
+                                 data-aos="fade-up">
                                 <div class="flex items-center space-x-3">
                                     <div class="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center">
                                         <span class="text-indigo-600 font-semibold">{{ schedule.dayShort }}</span>
@@ -401,3 +412,17 @@ export default {
     }
 }
 </script> 
+
+<style scoped>
+.fade-slide-enter-active, .fade-slide-leave-active {
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.fade-slide-enter-from, .fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(40px);
+}
+.fade-slide-enter-to, .fade-slide-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style> 

@@ -1,12 +1,14 @@
 <template>
     <div>
         <!-- Hero Section -->
+        <transition name="fade-slide">
         <section class="bg-gradient-to-r from-purple-600 to-blue-600 text-white py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                 <h1 class="text-4xl md:text-5xl font-bold mb-4">Data Desa</h1>
                 <p class="text-xl opacity-90">Statistik dan data terkini desa kami</p>
             </div>
         </section>
+        </transition>
 
         <!-- Overview Stats -->
         <section class="py-16 bg-white">
@@ -15,15 +17,16 @@
                     <h2 class="section-title">Statistik Umum</h2>
                     <p class="text-gray-600">Data demografis dan statistik dasar desa</p>
                 </div>
-                
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                    <div v-for="stat in overviewStats" :key="stat.label" 
-                         class="text-center p-6 bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg">
+                <transition-group name="fade-slide" tag="div" class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div v-for="(stat, index) in overviewStats" :key="stat.label" 
+                         class="text-center p-6 bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg"
+                         :style="{ transitionDelay: (index * 100) + 'ms' }"
+                         data-aos="fade-up">
                         <div class="text-3xl md:text-4xl font-bold text-blue-600 mb-2">{{ stat.value }}</div>
                         <div class="text-gray-600">{{ stat.label }}</div>
                         <div class="text-xs text-gray-500 mt-1">{{ stat.change }}</div>
                     </div>
-                </div>
+                </transition-group>
             </div>
         </section>
 
@@ -35,13 +38,15 @@
                     <p class="text-gray-600">Data kependudukan berdasarkan berbagai kategori</p>
                 </div>
                 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <transition-group name="fade-slide" tag="div" class="grid grid-cols-1 lg:grid-cols-2 gap-12">
                     <!-- Gender Distribution -->
                     <div class="card">
                         <h3 class="text-xl font-semibold mb-6">Distribusi Gender</h3>
                         <div class="space-y-4">
                             <div v-for="gender in genderStats" :key="gender.type" 
-                                 class="flex items-center justify-between">
+                                 class="flex items-center justify-between"
+                                 data-aos="fade-up"
+                                 :style="{ transitionDelay: (index * 100) + 'ms' }">
                                 <div class="flex items-center">
                                     <div class="w-4 h-4 rounded-full mr-3" :class="gender.color"></div>
                                     <span class="font-medium">{{ gender.type }}</span>
@@ -63,7 +68,9 @@
                         <h3 class="text-xl font-semibold mb-6">Distribusi Usia</h3>
                         <div class="space-y-4">
                             <div v-for="age in ageStats" :key="age.range" 
-                                 class="flex items-center justify-between">
+                                 class="flex items-center justify-between"
+                                 data-aos="fade-up"
+                                 :style="{ transitionDelay: (index * 100) + 'ms' }">
                                 <span class="font-medium">{{ age.range }}</span>
                                 <div class="flex items-center space-x-4">
                                     <div class="w-32 bg-gray-200 rounded-full h-3">
@@ -76,7 +83,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </transition-group>
             </div>
         </section>
 
@@ -94,7 +101,9 @@
                         <h3 class="text-lg font-semibold mb-6">Ukuran Keluarga</h3>
                         <div class="space-y-4">
                             <div v-for="size in familySizes" :key="size.members" 
-                                 class="flex items-center justify-between">
+                                 class="flex items-center justify-between"
+                                 data-aos="fade-up"
+                                 :style="{ transitionDelay: (index * 100) + 'ms' }">
                                 <span class="font-medium">{{ size.members }} orang</span>
                                 <div class="flex items-center space-x-4">
                                     <div class="w-24 bg-gray-200 rounded-full h-2">
@@ -112,7 +121,9 @@
                         <h3 class="text-lg font-semibold mb-6">Jenis Keluarga</h3>
                         <div class="space-y-4">
                             <div v-for="type in familyTypes" :key="type.name" 
-                                 class="flex items-center justify-between">
+                                 class="flex items-center justify-between"
+                                 data-aos="fade-up"
+                                 :style="{ transitionDelay: (index * 100) + 'ms' }">
                                 <span class="font-medium">{{ type.name }}</span>
                                 <div class="flex items-center space-x-4">
                                     <div class="w-24 bg-gray-200 rounded-full h-2">
@@ -130,7 +141,9 @@
                         <h3 class="text-lg font-semibold mb-6">Status Kepemilikan Rumah</h3>
                         <div class="space-y-4">
                             <div v-for="house in housingStats" :key="house.status" 
-                                 class="flex items-center justify-between">
+                                 class="flex items-center justify-between"
+                                 data-aos="fade-up"
+                                 :style="{ transitionDelay: (index * 100) + 'ms' }">
                                 <span class="font-medium">{{ house.status }}</span>
                                 <div class="flex items-center space-x-4">
                                     <div class="w-24 bg-gray-200 rounded-full h-2">
@@ -154,13 +167,15 @@
                     <p class="text-gray-600">Statistik tingkat pendidikan dan lapangan pekerjaan</p>
                 </div>
                 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <transition-group name="fade-slide" tag="div" class="grid grid-cols-1 lg:grid-cols-2 gap-12">
                     <!-- Education Level -->
                     <div class="card">
                         <h3 class="text-xl font-semibold mb-6">Tingkat Pendidikan</h3>
                         <div class="space-y-4">
                             <div v-for="edu in educationStats" :key="edu.level" 
-                                 class="flex items-center justify-between">
+                                 class="flex items-center justify-between"
+                                 data-aos="fade-up"
+                                 :style="{ transitionDelay: (index * 100) + 'ms' }">
                                 <span class="font-medium">{{ edu.level }}</span>
                                 <div class="flex items-center space-x-4">
                                     <div class="w-32 bg-gray-200 rounded-full h-3">
@@ -179,7 +194,9 @@
                         <h3 class="text-xl font-semibold mb-6">Lapangan Pekerjaan</h3>
                         <div class="space-y-4">
                             <div v-for="job in employmentStats" :key="job.sector" 
-                                 class="flex items-center justify-between">
+                                 class="flex items-center justify-between"
+                                 data-aos="fade-up"
+                                 :style="{ transitionDelay: (index * 100) + 'ms' }">
                                 <span class="font-medium">{{ job.sector }}</span>
                                 <div class="flex items-center space-x-4">
                                     <div class="w-32 bg-gray-200 rounded-full h-3">
@@ -192,7 +209,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </transition-group>
             </div>
         </section>
 
@@ -204,7 +221,7 @@
                     <p class="text-gray-600">Indeks Desa Membangun dan Sustainable Development Goals</p>
                 </div>
                 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <transition-group name="fade-slide" tag="div" class="grid grid-cols-1 lg:grid-cols-2 gap-12">
                     <!-- IDM Score -->
                     <div class="card">
                         <h3 class="text-xl font-semibold mb-6">Indeks Desa Membangun (IDM)</h3>
@@ -219,7 +236,9 @@
                         
                         <div class="space-y-4">
                             <div v-for="dimension in idmDimensions" :key="dimension.name" 
-                                 class="flex items-center justify-between">
+                                 class="flex items-center justify-between"
+                                 data-aos="fade-up"
+                                 :style="{ transitionDelay: (index * 100) + 'ms' }">
                                 <span class="font-medium">{{ dimension.name }}</span>
                                 <div class="flex items-center space-x-4">
                                     <div class="w-24 bg-gray-200 rounded-full h-2">
@@ -237,7 +256,9 @@
                         <h3 class="text-xl font-semibold mb-6">SDGs Desa Progress</h3>
                         <div class="space-y-4">
                             <div v-for="sdg in sdgsProgress" :key="sdg.goal" 
-                                 class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                 class="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                                 data-aos="fade-up"
+                                 :style="{ transitionDelay: (index * 100) + 'ms' }">
                                 <div class="flex items-center space-x-3">
                                     <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold"
                                          :class="getSDGColor(sdg.status)">
@@ -256,7 +277,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </transition-group>
             </div>
         </section>
 
@@ -268,13 +289,14 @@
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div v-for="download in dataDownloads" :key="download.name" 
-                         class="card text-center hover:shadow-lg transition-shadow duration-300">
+                         class="card text-center hover:shadow-lg transition-shadow duration-300 hover:scale-105"
+                         data-aos="fade-up">
                         <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
                             <component :is="download.icon" class="w-6 h-6 text-blue-600" />
                         </div>
                         <h3 class="font-semibold mb-2">{{ download.name }}</h3>
                         <p class="text-sm text-gray-600 mb-4">{{ download.description }}</p>
-                        <button class="btn-primary w-full">
+                        <button class="btn-primary w-full hover:scale-105 transition-transform duration-300">
                             Download {{ download.format }}
                         </button>
                     </div>
@@ -396,3 +418,17 @@ export default {
     }
 }
 </script> 
+
+<style scoped>
+.fade-slide-enter-active, .fade-slide-leave-active {
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.fade-slide-enter-from, .fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(40px);
+}
+.fade-slide-enter-to, .fade-slide-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style> 

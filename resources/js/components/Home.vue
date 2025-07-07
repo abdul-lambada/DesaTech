@@ -1,6 +1,7 @@
 <template>
     <div>
         <!-- Hero Section -->
+        <transition name="fade-slide">
         <section class="relative bg-gradient-to-r from-blue-600 to-green-600 text-white">
             <div class="absolute inset-0 bg-black opacity-20"></div>
             <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
@@ -23,16 +24,17 @@
                 </div>
             </div>
         </section>
+        </transition>
 
         <!-- Quick Stats -->
         <section class="py-12 bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                    <div v-for="stat in quickStats" :key="stat.label" class="text-center">
+                <transition-group name="fade-slide" tag="div" class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div v-for="(stat, index) in quickStats" :key="stat.label" class="text-center" :style="{ transitionDelay: (index * 100) + 'ms' }" data-aos="fade-up">
                         <div class="text-3xl md:text-4xl font-bold text-blue-600 mb-2">{{ stat.value }}</div>
                         <div class="text-gray-600">{{ stat.label }}</div>
                     </div>
-                </div>
+                </transition-group>
             </div>
         </section>
 
@@ -45,16 +47,15 @@
                         Desa kami adalah desa yang maju dengan teknologi digital untuk memberikan pelayanan terbaik kepada warga.
                     </p>
                 </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div v-for="info in villageInfo" :key="info.title" class="card text-center">
+                <transition-group name="fade-slide" tag="div" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div v-for="(info, index) in villageInfo" :key="info.title" class="card text-center" :style="{ transitionDelay: (index * 100) + 'ms' }" data-aos="fade-up">
                         <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                             <component :is="info.icon" class="w-8 h-8 text-blue-600" />
                         </div>
                         <h3 class="text-xl font-semibold mb-3">{{ info.title }}</h3>
                         <p class="text-gray-600">{{ info.description }}</p>
                     </div>
-                </div>
+                </transition-group>
             </div>
         </section>
 
@@ -67,9 +68,8 @@
                         Lihat Semua →
                     </router-link>
                 </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div v-for="news in latestNews" :key="news.id" class="card hover:shadow-lg transition-shadow duration-300">
+                <transition-group name="fade-slide" tag="div" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div v-for="(news, index) in latestNews" :key="news.id" class="card hover:shadow-lg transition-shadow duration-300" :style="{ transitionDelay: (index * 100) + 'ms' }" data-aos="fade-up">
                         <img :src="news.image" :alt="news.title" class="w-full h-48 object-cover rounded-lg mb-4">
                         <div class="flex items-center text-sm text-gray-500 mb-2">
                             <span>{{ news.date }}</span>
@@ -82,7 +82,7 @@
                             Baca Selengkapnya →
                         </router-link>
                     </div>
-                </div>
+                </transition-group>
             </div>
         </section>
 
@@ -140,17 +140,16 @@
                     <h2 class="section-title">Layanan Cepat</h2>
                     <p class="text-gray-600">Akses layanan desa dengan mudah</p>
                 </div>
-                
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                    <div v-for="service in quickServices" :key="service.name" 
-                         class="card text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer">
+                <transition-group name="fade-slide" tag="div" class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div v-for="(service, index) in quickServices" :key="service.name" 
+                         class="card text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer" :style="{ transitionDelay: (index * 100) + 'ms' }" data-aos="fade-up">
                         <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
                             <component :is="service.icon" class="w-6 h-6 text-blue-600" />
                         </div>
                         <h3 class="font-semibold mb-2">{{ service.name }}</h3>
                         <p class="text-sm text-gray-600">{{ service.description }}</p>
                     </div>
-                </div>
+                </transition-group>
             </div>
         </section>
 
@@ -279,5 +278,17 @@ export default {
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+}
+
+.fade-slide-enter-active, .fade-slide-leave-active {
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.fade-slide-enter-from, .fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(40px);
+}
+.fade-slide-enter-to, .fade-slide-leave-from {
+  opacity: 1;
+  transform: translateY(0);
 }
 </style> 

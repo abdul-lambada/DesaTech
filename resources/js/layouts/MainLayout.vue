@@ -23,7 +23,7 @@
                             v-for="item in navigationItems" 
                             :key="item.path"
                             :to="item.path"
-                            class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                            class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 transform hover:scale-105 hover:shadow-md"
                             :class="{ 'text-blue-600 bg-blue-50': $route.path === item.path }"
                         >
                             {{ item.name }}
@@ -45,26 +45,30 @@
                 </div>
 
                 <!-- Mobile Navigation -->
-                <div v-if="mobileMenuOpen" class="md:hidden">
-                    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-gray-200">
-                        <router-link 
-                            v-for="item in navigationItems" 
-                            :key="item.path"
-                            :to="item.path"
-                            @click="mobileMenuOpen = false"
-                            class="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
-                            :class="{ 'text-blue-600 bg-blue-50': $route.path === item.path }"
-                        >
-                            {{ item.name }}
-                        </router-link>
-                    </div>
-                </div>
+                <transition name="slide-fade">
+                  <div v-if="mobileMenuOpen" class="md:hidden">
+                      <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-gray-200">
+                          <router-link 
+                              v-for="item in navigationItems" 
+                              :key="item.path"
+                              :to="item.path"
+                              @click="mobileMenuOpen = false"
+                              class="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
+                              :class="{ 'text-blue-600 bg-blue-50': $route.path === item.path }"
+                          >
+                              {{ item.name }}
+                          </router-link>
+                      </div>
+                  </div>
+                </transition>
             </nav>
         </header>
 
         <!-- Main Content -->
         <main class="flex-1">
-            <router-view />
+            <transition name="fade-page" mode="out-in">
+                <router-view />
+            </transition>
         </main>
 
         <!-- Footer -->
@@ -156,3 +160,37 @@ export default {
     }
 }
 </script> 
+
+<style scoped>
+.fade-page-enter-active, .fade-page-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-page-enter-from, .fade-page-leave-to {
+  opacity: 0;
+}
+.fade-page-enter-to, .fade-page-leave-from {
+  opacity: 1;
+}
+.slide-fade-enter-active {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.slide-fade-leave-active {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.slide-fade-enter-from {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+.slide-fade-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+}
+.slide-fade-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+.slide-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+</style> 
