@@ -1,5 +1,12 @@
 <template>
     <div>
+        <!-- Loader -->
+        <div v-if="loading" class="loader-overlay">
+            <div class="loader-container">
+                <div class="loader"></div>
+                <div class="loader-text">Memuat profil desa...</div>
+            </div>
+        </div>
         <!-- Hero Section -->
         <transition name="fade-slide">
         <section class="relative bg-gradient-to-r from-blue-600 to-green-600 text-white">

@@ -10,6 +10,20 @@
         </section>
         </transition>
 
+        <!-- Loader -->
+        <div v-if="loading" class="loader-overlay">
+            <div class="loader-container">
+                <div class="loader"></div>
+                <div class="loader-text">Memuat profil desa...</div>
+            </div>
+        </div><!-- Loader -->
+        <div v-if="loading" class="loader-overlay">
+            <div class="loader-container">
+                <div class="loader"></div>
+                <div class="loader-text">Memuat profil desa...</div>
+            </div>
+        </div>
+
         <!-- Service Categories -->
         <section class="py-16 bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

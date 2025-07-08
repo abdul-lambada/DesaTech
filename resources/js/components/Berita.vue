@@ -10,6 +10,14 @@
         </section>
         </transition>
 
+        <!-- Loader -->
+        <div v-if="loading" class="loader-overlay">
+            <div class="loader-container">
+                <div class="loader"></div>
+                <div class="loader-text">Memuat profil desa...</div>
+            </div>
+        </div>
+
         <!-- News Categories -->
         <section class="py-8 bg-white border-b">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

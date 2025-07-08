@@ -9,6 +9,13 @@
             </div>
         </section>
         </transition>
+        <!-- Loader -->
+        <div v-if="loading" class="loader-overlay">
+            <div class="loader-container">
+                <div class="loader"></div>
+                <div class="loader-text">Memuat profil desa...</div>
+            </div>
+        </div>
 
         <!-- Village Overview -->
         <section class="py-16 bg-white">

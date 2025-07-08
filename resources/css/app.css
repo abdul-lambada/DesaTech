@@ -2,41 +2,58 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom styles for Desa website */
-@layer base {
-    html {
-        scroll-behavior: smooth;
-    }
-    
-    body {
-        font-family: 'Inter', sans-serif;
-    }
-}
-
 @layer components {
-    .btn-primary {
-        @apply bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
-    }
-    
-    .btn-secondary {
-        @apply bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-lg transition-colors duration-200;
-    }
-    
-    .card {
-        @apply bg-white rounded-lg shadow-md p-6;
-    }
-    
-    .section-title {
-        @apply text-2xl md:text-3xl font-bold text-gray-800 mb-6;
-    }
-    
-    .section-subtitle {
-        @apply text-lg text-gray-600 mb-4;
-    }
-}
+  /* Loader/Spinner Styles */
+  .loader {
+    @apply inline-block w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin;
+  }
+  
+  .loader-overlay {
+    @apply fixed inset-0 bg-white bg-opacity-75 flex items-center justify-center z-50;
+  }
+  
+  .loader-container {
+    @apply flex flex-col items-center space-y-4;
+  }
+  
+  .loader-text {
+    @apply text-gray-600 font-medium;
+  }
 
-@layer utilities {
-    .text-gradient {
-        @apply bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent;
-    }
+  /* Fade Slide Animation */
+  .fade-slide-enter-active, .fade-slide-leave-active {
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .fade-slide-enter-from, .fade-slide-leave-to {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  .fade-slide-enter-to, .fade-slide-leave-from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Fade Animation */
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity 0.5s;
+  }
+  .fade-enter-from, .fade-leave-to {
+    opacity: 0;
+  }
+  .fade-enter-to, .fade-leave-from {
+    opacity: 1;
+  }
+  
+  .btn-primary {
+    @apply px-6 py-2 rounded-lg font-semibold shadow transition bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2;
+  }
+  .btn-secondary {
+    @apply px-6 py-2 rounded-lg font-semibold shadow transition border-2 border-blue-600 text-blue-600 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2;
+  }
+  .card {
+    @apply bg-white rounded-xl shadow p-6;
+  }
+  .section-title {
+    @apply text-3xl md:text-4xl font-bold mb-4 text-blue-700;
+  }
 }
