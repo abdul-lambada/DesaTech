@@ -49,9 +49,9 @@ class QuickServiceResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListQuickServices::class,
-            'create' => Pages\CreateQuickService::class,
-            'edit' => Pages\EditQuickService::class,
+            'index' => Pages\ListQuickServices::route('/'),
+            'create' => Pages\CreateQuickService::route('/create'),
+            'edit' => Pages\EditQuickService::route('/{record}/edit'),
         ];
     }
-} 
+}

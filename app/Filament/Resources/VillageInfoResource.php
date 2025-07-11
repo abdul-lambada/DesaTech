@@ -83,9 +83,9 @@ class VillageInfoResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListVillageInfo::class,
-            'create' => Pages\CreateVillageInfo::class,
-            'edit' => Pages\EditVillageInfo::class,
+            'index' => Pages\ListVillageInfo::route('/'),
+            'create' => Pages\CreateVillageInfo::route('/create'),
+            'edit' => Pages\EditVillageInfo::route('/{record}/edit'),
         ];
     }
-} 
+}
