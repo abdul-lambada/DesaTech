@@ -2,21 +2,20 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var list<string>
+     * @var array<int, string>
      */
     protected $fillable = [
         'name',
@@ -27,7 +26,7 @@ class User extends Authenticatable
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var list<string>
+     * @var array<int, string>
      */
     protected $hidden = [
         'password',
@@ -45,5 +44,37 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Check if user has any of the specified roles
+     */
+    public function hasAnyRole($roles): bool
+    {
+        return parent::hasAnyRole($roles);
+    }
+
+    /**
+     * Get user's primary role
+     */
+    public function getPrimaryRoleAttribute()
+    {
+        return $this->roles->first();
+    }
+
+    /**
+     * Check if user is administrator
+     */
+    public function isAdministrator(): bool
+    {
+        return $this->hasRole('Administrator');
+    }
+
+    /**
+     * Check if user is village official
+     */
+    public function isVillageOfficial(): bool
+    {
+        return $this->hasAnyRole(['Kepala Desa', 'Sekretaris Desa', 'Operator Desa']);
     }
 }

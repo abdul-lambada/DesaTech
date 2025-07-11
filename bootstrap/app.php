@@ -12,13 +12,14 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->web(append: [
-            \App\Http\Middleware\HandleInertiaRequests::class,
+            // \\App\\Http\\Middleware\\HandleInertiaRequests::class, // removed because Inertia is not used
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
         ]);
 
         // Register custom middleware
         $middleware->alias([
             'permission' => \App\Http\Middleware\CheckPermission::class,
+            'filament.role' => \App\Http\Middleware\EnsureFilamentRole::class,
         ]);
 
         //
