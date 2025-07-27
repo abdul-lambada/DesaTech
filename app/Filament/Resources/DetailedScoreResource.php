@@ -16,7 +16,7 @@ class DetailedScoreResource extends Resource
 {
     protected static ?string $model = DetailedScore::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-sparkles';
+    protected static ?string $navigationIcon = 'heroicon-o-star';
     protected static ?string $navigationGroup = 'Transparansi';
     protected static ?int $navigationSort = 3;
 

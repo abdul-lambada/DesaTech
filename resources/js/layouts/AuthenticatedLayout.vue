@@ -1,5 +1,7 @@
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
@@ -8,6 +10,17 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/vue3';
 
 const showingNavigationDropdown = ref(false);
+const router = useRouter();
+
+const logout = async () => {
+    try {
+        await axios.post('/api/logout');
+    } catch (e) {}
+    localStorage.removeItem('auth_token');
+    localStorage.removeItem('user');
+    delete axios.defaults.headers.common['Authorization'];
+    router.push('/login');
+};
 </script>
 
 <template>
@@ -77,9 +90,8 @@ const showingNavigationDropdown = ref(false);
                                             Profile
                                         </DropdownLink>
                                         <DropdownLink
-                                            :href="route('logout')"
-                                            method="post"
                                             as="button"
+                                            @click="logout"
                                         >
                                             Log Out
                                         </DropdownLink>

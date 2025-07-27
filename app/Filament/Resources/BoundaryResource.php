@@ -17,7 +17,7 @@ class BoundaryResource extends Resource
 {
     protected static ?string $model = Boundary::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-map';
 
     public static function form(Form $form): Form
     {

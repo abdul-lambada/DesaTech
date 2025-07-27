@@ -18,8 +18,8 @@ import Transparansi from './components/Transparansi.vue';
 import Kontak from './components/Kontak.vue';
 
 // Import auth/dashboard components
-import Login from './components/Auth/Login.vue';
-import Register from './components/Auth/Register.vue';
+import Login from './Pages/Auth/Login.vue';
+import Register from './Pages/Auth/Register.vue';
 import Dashboard from './components/Dashboard.vue';
 import Profile from './Pages/Profile/Edit.vue';
 import ForgotPassword from './Pages/Auth/ForgotPassword.vue';

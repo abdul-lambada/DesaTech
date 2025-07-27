@@ -14,7 +14,7 @@ class QuickServiceResource extends Resource
 {
     protected static ?string $model = QuickService::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-lightning-bolt';
+    protected static ?string $navigationIcon = 'heroicon-o-bolt';
     protected static ?string $navigationGroup = 'Layanan';
     protected static ?string $navigationLabel = 'Quick Services';
     protected static ?string $modelLabel = 'Quick Service';

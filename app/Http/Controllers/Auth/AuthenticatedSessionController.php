@@ -4,11 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
 
 class AuthenticatedSessionController extends Controller
@@ -18,18 +17,31 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): JsonResponse
     {
-        $request->authenticate();
-
-        Session::regenerate();
-
-        $user = Auth::user();
-        $token = $user->createToken('auth-token')->plainTextToken;
-
-        return response()->json([
-            'user' => $user,
-            'token' => $token,
-            'message' => 'Logged in successfully'
-        ]);
+        if (Auth::check()) {
+            return response()->json([
+                'message' => 'Already authenticated',
+                'user' => Auth::user(),
+                'redirect' => '/dashboard',
+            ], 200);
+        }
+        try {
+            $request->authenticate();
+            session()->regenerate();
+            return response()->json([
+                'message' => 'Logged in successfully',
+                'user' => Auth::user(),
+                'redirect' => '/dashboard'
+            ]);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'message' => 'Login failed',
+                'errors' => $e->errors(),
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
@@ -37,17 +49,12 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): JsonResponse
     {
-        // Revoke the token that was used to authenticate the current request
-        $request->user()->currentAccessToken()->delete();
-
         Auth::guard('web')->logout();
-
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
-
         return response()->json([
-            'message' => 'Logged out successfully'
+            'message' => 'Logged out successfully',
+            'redirect' => '/'
         ]);
     }
 }

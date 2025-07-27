@@ -47,14 +47,6 @@ class User extends Authenticatable
     }
 
     /**
-     * Check if user has any of the specified roles
-     */
-    public function hasAnyRole($roles): bool
-    {
-        return parent::hasAnyRole($roles);
-    }
-
-    /**
      * Get user's primary role
      */
     public function getPrimaryRoleAttribute()

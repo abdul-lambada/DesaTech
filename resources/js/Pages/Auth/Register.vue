@@ -1,28 +1,69 @@
 <script setup>
-import GuestLayout from '@/Layouts/GuestLayout.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import GuestLayout from '@/layouts/GuestLayout.vue';
+import InputError from '@/components/InputError.vue';
+import InputLabel from '@/components/InputLabel.vue';
+import PrimaryButton from '@/components/PrimaryButton.vue';
+import TextInput from '@/components/TextInput.vue';
 
-const form = useForm({
+const router = useRouter();
+
+const form = ref({
     name: '',
     email: '',
     password: '',
     password_confirmation: '',
 });
 
-const submit = () => {
-    form.post(route('register'), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
-    });
+const errors = ref({});
+const processing = ref(false);
+const status = ref('');
+
+const submit = async () => {
+    processing.value = true;
+    errors.value = {};
+
+    try {
+        const response = await fetch('/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            },
+            body: JSON.stringify(form.value),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // Registration successful
+            status.value = data.message;
+            if (data.redirect) {
+                window.location.href = data.redirect;
+            }
+        } else {
+            // Registration failed
+            if (data.errors) {
+                errors.value = data.errors;
+            } else {
+                errors.value = { email: [data.message || 'Registration failed'] };
+            }
+        }
+    } catch (error) {
+        console.error('Registration error:', error);
+        errors.value = { email: ['An error occurred during registration'] };
+    } finally {
+        processing.value = false;
+    }
 };
 </script>
 
 <template>
     <GuestLayout>
-        <Head title="Register" />
+        <div v-if="status" class="mb-4 text-sm font-medium text-green-600">
+            {{ status }}
+        </div>
 
         <form @submit.prevent="submit">
             <div>
@@ -38,7 +79,7 @@ const submit = () => {
                     autocomplete="name"
                 />
 
-                <InputError class="mt-2" :message="form.errors.name" />
+                <InputError class="mt-2" :message="errors.name ? errors.name[0] : ''" />
             </div>
 
             <div class="mt-4">
@@ -53,7 +94,7 @@ const submit = () => {
                     autocomplete="username"
                 />
 
-                <InputError class="mt-2" :message="form.errors.email" />
+                <InputError class="mt-2" :message="errors.email ? errors.email[0] : ''" />
             </div>
 
             <div class="mt-4">
@@ -68,7 +109,7 @@ const submit = () => {
                     autocomplete="new-password"
                 />
 
-                <InputError class="mt-2" :message="form.errors.password" />
+                <InputError class="mt-2" :message="errors.password ? errors.password[0] : ''" />
             </div>
 
             <div class="mt-4">
@@ -88,22 +129,22 @@ const submit = () => {
 
                 <InputError
                     class="mt-2"
-                    :message="form.errors.password_confirmation"
+                    :message="errors.password_confirmation ? errors.password_confirmation[0] : ''"
                 />
             </div>
 
             <div class="mt-4 flex items-center justify-end">
-                <Link
-                    :href="route('login')"
+                <a
+                    href="/login"
                     class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
                     Already registered?
-                </Link>
+                </a>
 
                 <PrimaryButton
                     class="ms-4"
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
+                    :class="{ 'opacity-25': processing }"
+                    :disabled="processing"
                 >
                     Register
                 </PrimaryButton>

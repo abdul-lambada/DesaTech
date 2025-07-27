@@ -16,7 +16,7 @@ class BudgetCategoryResource extends Resource
 {
     protected static ?string $model = BudgetCategory::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-group';
+    protected static ?string $navigationIcon = 'heroicon-o-squares-2x2';
     protected static ?string $navigationGroup = 'Keuangan';
     protected static ?int $navigationSort = 3;
 

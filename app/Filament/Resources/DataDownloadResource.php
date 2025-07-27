@@ -17,7 +17,7 @@ class DataDownloadResource extends Resource
 {
     protected static ?string $model = DataDownload::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-arrow-down-tray';
 
     public static function form(Form $form): Form
     {
