@@ -23,14 +23,16 @@ class AdministrativeRtResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('administrative_area_id')
-                    ->required()
-                    ->numeric(),
+                Forms\Components\Select::make('administrative_area_id')
+                    ->label('Administrative Area')
+                    ->relationship('administrativeArea', 'rw')
+                    ->searchable()
+                    ->preload(),
                 Forms\Components\TextInput::make('number')
-                    ->required()
+                    ->label('RT Number')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('head')
-                    ->required()
+                    ->label('Head Count')
                     ->numeric(),
             ]);
     }

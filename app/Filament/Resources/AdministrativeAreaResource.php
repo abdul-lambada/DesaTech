@@ -24,10 +24,10 @@ class AdministrativeAreaResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('rw')
-                    ->required()
+                    ->label('RW')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('total_kk')
-                    ->required()
+                    ->label('Total KK')
                     ->numeric(),
             ]);
     }

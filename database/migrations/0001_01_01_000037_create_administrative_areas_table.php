@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('administrative_areas', function (Blueprint $table) {
             $table->id();
-            $table->string('rw');
-            $table->unsignedInteger('total_kk');
+            $table->string('rw')->nullable();
+            $table->unsignedInteger('total_kk')->nullable();
             $table->timestamps();
         });
     }

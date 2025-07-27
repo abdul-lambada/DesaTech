@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('administrative_rts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('administrative_area_id')->constrained('administrative_areas')->onDelete('cascade');
-            $table->string('number');
-            $table->unsignedInteger('head');
+            $table->string('number')->nullable();
+            $table->unsignedInteger('head')->nullable();
             $table->timestamps();
         });
     }

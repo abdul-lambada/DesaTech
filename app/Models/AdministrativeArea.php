@@ -10,15 +10,12 @@ class AdministrativeArea extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'type',
-        'population',
-        'area',
+        'rw',
+        'total_kk',
     ];
 
     protected $casts = [
-        'population' => 'integer',
-        'area' => 'decimal:2',
+        'total_kk' => 'integer',
     ];
 
     public function scopeByType($query, $type)

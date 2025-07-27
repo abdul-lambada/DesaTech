@@ -10,16 +10,13 @@ class AdministrativeRt extends Model
     use HasFactory;
 
     protected $fillable = [
-        'rt_number',
-        'rw_number',
-        'head_name',
-        'population',
+        'administrative_area_id',
+        'number',
+        'head',
     ];
 
     protected $casts = [
-        'rt_number' => 'integer',
-        'rw_number' => 'integer',
-        'population' => 'integer',
+        'head' => 'integer',
     ];
 
     public function scopeByRt($query, $rt)
@@ -30,6 +27,11 @@ class AdministrativeRt extends Model
     public function scopeByRw($query, $rw)
     {
         return $query->where("rw_number", $rw);
+    }
+
+    public function administrativeArea()
+    {
+        return $this->belongsTo(AdministrativeArea::class);
     }
 
 }
