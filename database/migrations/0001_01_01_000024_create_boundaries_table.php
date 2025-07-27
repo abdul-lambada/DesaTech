@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('boundaries', function (Blueprint $table) {
             $table->id();
-            $table->string('direction');
-            $table->string('area');
+            $table->string('direction')->nullable();
+            $table->string('area')->nullable();
             $table->timestamps();
         });
     }

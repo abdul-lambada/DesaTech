@@ -10,18 +10,13 @@ class Boundary extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'coordinates',
+        'direction',
         'area',
     ];
 
-    protected $casts = [
-        'area' => 'decimal:2',
-    ];
-
-    public function scopeByName($query, $name)
+    public function scopeByDirection($query, $direction)
     {
-        return $query->where("name", $name);
+        return $query->where("direction", $direction);
     }
 
 }

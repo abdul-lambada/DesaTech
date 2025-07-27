@@ -24,10 +24,10 @@ class BoundaryResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('direction')
-                    ->required()
+                    ->label('Direction')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('area')
-                    ->required()
+                    ->label('Area')
                     ->maxLength(255),
             ]);
     }
