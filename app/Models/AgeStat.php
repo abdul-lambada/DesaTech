@@ -10,10 +10,9 @@ class AgeStat extends Model
     use HasFactory;
 
     protected $fillable = [
-        'age_group',
+        'range',
         'count',
         'percentage',
-        'color',
     ];
 
     protected $casts = [
@@ -21,9 +20,9 @@ class AgeStat extends Model
         'percentage' => 'integer',
     ];
 
-    public function scopeByAgeGroup($query, $ageGroup)
+    public function scopeByRange($query, $range)
     {
-        return $query->where("age_group", $ageGroup);
+        return $query->where("range", $range);
     }
 
     public function getFormattedPercentageAttribute()

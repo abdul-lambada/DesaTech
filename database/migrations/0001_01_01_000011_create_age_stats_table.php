@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('age_stats', function (Blueprint $table) {
             $table->id();
-            $table->string('range');
-            $table->unsignedInteger('count');
-            $table->unsignedTinyInteger('percentage');
+            $table->string('range')->nullable();
+            $table->unsignedInteger('count')->nullable();
+            $table->unsignedTinyInteger('percentage')->nullable();
             $table->timestamps();
         });
     }

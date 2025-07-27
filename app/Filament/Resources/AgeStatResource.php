@@ -24,13 +24,13 @@ class AgeStatResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('range')
-                    ->required()
+                    ->label('Age Range')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('count')
-                    ->required()
+                    ->label('Count')
                     ->numeric(),
                 Forms\Components\TextInput::make('percentage')
-                    ->required()
+                    ->label('Percentage')
                     ->numeric(),
             ]);
     }
