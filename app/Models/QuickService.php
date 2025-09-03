@@ -13,12 +13,11 @@ class QuickService extends Model
         'name',
         'description',
         'icon',
-        'url',
     ];
 
-    public function scopeActive($query)
+    public function scopeByIcon($query, $icon)
     {
-        return $query->where("status", "active");
+        return $query->where("icon", $icon);
     }
 
 }

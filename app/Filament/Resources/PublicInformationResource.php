@@ -49,25 +49,21 @@ class PublicInformationResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->label('Judul')
+                Forms\Components\TextInput::make('name')
+                    ->label('Nama Informasi')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('content')
-                    ->label('Isi Informasi')
+                Forms\Components\Textarea::make('description')
+                    ->label('Deskripsi')
                     ->rows(4)
                     ->required(),
-                Forms\Components\TextInput::make('category')
-                    ->label('Kategori')
-                    ->maxLength(100),
-                Forms\Components\Select::make('status')
-                    ->label('Status')
-                    ->options([
-                        'published' => 'Publikasi',
-                        'draft' => 'Draft',
-                    ])
-                    ->default('published')
+                Forms\Components\DatePicker::make('last_update')
+                    ->label('Terakhir Diupdate')
                     ->required(),
+                Forms\Components\TextInput::make('icon')
+                    ->label('Icon')
+                    ->required()
+                    ->maxLength(100),
             ]);
     }
 
@@ -75,19 +71,19 @@ class PublicInformationResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title')
-                    ->label('Judul')
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Nama Informasi')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('category')
-                    ->label('Kategori')
+                Tables\Columns\TextColumn::make('description')
+                    ->label('Deskripsi')
+                    ->limit(50),
+                Tables\Columns\TextColumn::make('last_update')
+                    ->label('Terakhir Diupdate')
+                    ->date('d/m/Y')
                     ->sortable(),
-                Tables\Columns\BadgeColumn::make('status')
-                    ->label('Status')
-                    ->colors([
-                        'published' => 'success',
-                        'draft' => 'warning',
-                    ])
+                Tables\Columns\TextColumn::make('icon')
+                    ->label('Icon')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Dibuat')
@@ -96,12 +92,7 @@ class PublicInformationResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('status')
-                    ->options([
-                        'published' => 'Publikasi',
-                        'draft' => 'Draft',
-                    ])
-                    ->label('Filter Status'),
+                // Tidak ada filter khusus
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

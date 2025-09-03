@@ -25,10 +25,16 @@ class QuickServiceResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
+                    ->label('Nama Layanan')
                     ->required()
                     ->maxLength(255),
                 TextInput::make('description')
+                    ->label('Deskripsi')
                     ->maxLength(255),
+                TextInput::make('icon')
+                    ->label('Icon')
+                    ->required()
+                    ->maxLength(100),
             ]);
     }
 
@@ -36,10 +42,21 @@ class QuickServiceResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')->sortable(),
-                Tables\Columns\TextColumn::make('name')->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('description')->limit(50),
-                Tables\Columns\TextColumn::make('created_at')->dateTime()->sortable(),
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Nama Layanan')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('description')
+                    ->label('Deskripsi')
+                    ->limit(50),
+                Tables\Columns\TextColumn::make('icon')
+                    ->label('Icon')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Dibuat')
+                    ->dateTime('d/m/Y H:i')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 // Add filters if needed

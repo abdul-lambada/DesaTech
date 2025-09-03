@@ -10,20 +10,20 @@ class PublicInformation extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title',
-        'content',
-        'category',
-        'status',
+        'name',
+        'description',
+        'last_update',
+        'icon',
     ];
 
-    public function scopePublished($query)
+    public function scopeByIcon($query, $icon)
     {
-        return $query->where("status", "published");
+        return $query->where("icon", $icon);
     }
 
-    public function scopeByCategory($query, $category)
+    public function scopeByLastUpdate($query, $lastUpdate)
     {
-        return $query->where("category", $category);
+        return $query->where("last_update", $lastUpdate);
     }
 
 }

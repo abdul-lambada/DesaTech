@@ -10,16 +10,19 @@ class VillageInfo extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'title',
         'description',
-        'history',
-        'vision',
-        'mission',
+        'icon',
     ];
 
-    public function scopeByName($query, $name)
+    public function scopeByTitle($query, $title)
     {
-        return $query->where("name", $name);
+        return $query->where("title", $title);
+    }
+
+    public function scopeByIcon($query, $icon)
+    {
+        return $query->where("icon", $icon);
     }
 
 }

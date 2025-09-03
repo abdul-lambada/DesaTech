@@ -49,17 +49,25 @@ class TransparencyScoreResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('year')
-                    ->label('Tahun')
+                Forms\Components\TextInput::make('overall')
+                    ->label('Skor Keseluruhan')
                     ->numeric()
-                    ->required(),
-                Forms\Components\TextInput::make('score')
-                    ->label('Skor')
-                    ->numeric()
+                    ->minValue(0)
+                    ->maxValue(100)
                     ->required(),
                 Forms\Components\TextInput::make('category')
                     ->label('Kategori')
+                    ->required()
                     ->maxLength(100),
+                Forms\Components\TextInput::make('percentage')
+                    ->label('Persentase')
+                    ->numeric()
+                    ->minValue(0)
+                    ->maxValue(100)
+                    ->required(),
+                Forms\Components\Textarea::make('description')
+                    ->label('Deskripsi')
+                    ->rows(3),
             ]);
     }
 
@@ -67,14 +75,22 @@ class TransparencyScoreResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('year')
-                    ->label('Tahun')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('score')
-                    ->label('Skor')
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('overall')
+                    ->label('Skor Keseluruhan')
+                    ->sortable()
+                    ->badge()
+                    ->color(fn (int $state): string => match (true) {
+                        $state >= 80 => 'success',
+                        $state >= 60 => 'warning',
+                        default => 'danger',
+                    }),
                 Tables\Columns\TextColumn::make('category')
                     ->label('Kategori')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('percentage')
+                    ->label('Persentase')
+                    ->suffix('%')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Dibuat')

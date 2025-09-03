@@ -49,21 +49,33 @@ class FinancialReportResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->label('Judul Laporan')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('period')
-                    ->label('Periode')
-                    ->required()
-                    ->maxLength(100),
-                Forms\Components\TextInput::make('file_path')
-                    ->label('File (Path/URL)')
+                Forms\Components\TextInput::make('name')
+                    ->label('Nama Laporan')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Textarea::make('description')
                     ->label('Deskripsi')
                     ->rows(3),
+                Forms\Components\Select::make('type')
+                    ->label('Tipe File')
+                    ->options([
+                        'PDF' => 'PDF',
+                        'Excel' => 'Excel',
+                        'Word' => 'Word',
+                        'Image' => 'Image',
+                    ])
+                    ->required(),
+                Forms\Components\DatePicker::make('date')
+                    ->label('Tanggal')
+                    ->required(),
+                Forms\Components\TextInput::make('size')
+                    ->label('Ukuran File')
+                    ->required()
+                    ->maxLength(50),
+                Forms\Components\TextInput::make('icon')
+                    ->label('Icon')
+                    ->required()
+                    ->maxLength(100),
             ]);
     }
 
@@ -71,17 +83,27 @@ class FinancialReportResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title')
-                    ->label('Judul Laporan')
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Nama Laporan')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('period')
-                    ->label('Periode')
+                Tables\Columns\TextColumn::make('type')
+                    ->label('Tipe')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'PDF' => 'danger',
+                        'Excel' => 'success',
+                        'Word' => 'info',
+                        'Image' => 'warning',
+                        default => 'gray',
+                    }),
+                Tables\Columns\TextColumn::make('date')
+                    ->label('Tanggal')
+                    ->date('d/m/Y')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('file_path')
-                    ->label('File')
-                    ->url(fn ($record) => $record->file_path, true)
-                    ->openUrlInNewTab(),
+                Tables\Columns\TextColumn::make('size')
+                    ->label('Ukuran')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Dibuat')
                     ->dateTime('d/m/Y H:i')

@@ -50,21 +50,17 @@ class VillageInfoResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')
-                    ->label('Nama Desa')
+                TextInput::make('title')
+                    ->label('Judul')
                     ->required()
                     ->maxLength(255),
-                TextInput::make('address')
-                    ->label('Alamat')
+                TextInput::make('description')
+                    ->label('Deskripsi')
+                    ->required()
                     ->maxLength(255),
-                TextInput::make('village_head')
-                    ->label('Kepala Desa')
-                    ->maxLength(255),
-                TextInput::make('phone')
-                    ->label('Telepon')
-                    ->maxLength(50),
-                TextInput::make('email')
-                    ->label('Email')
+                TextInput::make('icon')
+                    ->label('Icon')
+                    ->required()
                     ->maxLength(100),
             ]);
     }
@@ -73,10 +69,35 @@ class VillageInfoResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->label('Nama Desa')->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('village_head')->label('Kepala Desa')->sortable(),
-                Tables\Columns\TextColumn::make('phone')->label('Telepon'),
-                Tables\Columns\TextColumn::make('email')->label('Email'),
+                Tables\Columns\TextColumn::make('title')
+                    ->label('Judul')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('description')
+                    ->label('Deskripsi')
+                    ->limit(50),
+                Tables\Columns\TextColumn::make('icon')
+                    ->label('Icon')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Dibuat')
+                    ->dateTime('d/m/Y H:i')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+            ])
+            ->filters([
+                // Tidak ada filter khusus
+            ])
+            ->actions([
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->visible(fn () => Auth::user()?->hasRole('Administrator')),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->visible(fn () => Auth::user()?->hasRole('Administrator')),
+                ]),
             ]);
     }
 

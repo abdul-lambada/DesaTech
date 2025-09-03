@@ -10,19 +10,20 @@ class TransparencyScore extends Model
     use HasFactory;
 
     protected $fillable = [
-        'year',
-        'score',
+        'overall',
         'category',
+        'percentage',
+        'description',
     ];
 
     protected $casts = [
-        'year' => 'integer',
-        'score' => 'decimal:2',
+        'overall' => 'integer',
+        'percentage' => 'integer',
     ];
 
-    public function scopeByYear($query, $year)
+    public function scopeByOverall($query, $overall)
     {
-        return $query->where("year", $year);
+        return $query->where("overall", $overall);
     }
 
     public function scopeByCategory($query, $category)

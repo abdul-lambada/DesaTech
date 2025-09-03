@@ -10,15 +10,22 @@ class FinancialReport extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title',
-        'period',
-        'file_path',
+        'name',
         'description',
+        'type',
+        'date',
+        'size',
+        'icon',
     ];
 
-    public function scopeByPeriod($query, $period)
+    public function scopeByType($query, $type)
     {
-        return $query->where("period", $period);
+        return $query->where("type", $type);
+    }
+
+    public function scopeByDate($query, $date)
+    {
+        return $query->where("date", $date);
     }
 
 }

@@ -10,25 +10,22 @@ class DetailedScore extends Model
     use HasFactory;
 
     protected $fillable = [
-        'indicator',
+        'aspect',
         'score',
-        'weight',
-        'category',
     ];
 
     protected $casts = [
-        'score' => 'decimal:2',
-        'weight' => 'decimal:2',
+        'score' => 'integer',
     ];
 
-    public function scopeByCategory($query, $category)
+    public function scopeByAspect($query, $aspect)
     {
-        return $query->where("category", $category);
+        return $query->where("aspect", $aspect);
     }
 
-    public function getWeightedScoreAttribute()
+    public function scopeByScore($query, $score)
     {
-        return $this->score * $this->weight;
+        return $query->where("score", $score);
     }
 
 }

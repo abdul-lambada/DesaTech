@@ -49,21 +49,16 @@ class DetailedScoreResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('indicator')
-                    ->label('Indikator')
+                Forms\Components\TextInput::make('aspect')
+                    ->label('Aspek')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('score')
                     ->label('Skor')
                     ->numeric()
+                    ->minValue(0)
+                    ->maxValue(100)
                     ->required(),
-                Forms\Components\TextInput::make('weight')
-                    ->label('Bobot')
-                    ->numeric()
-                    ->required(),
-                Forms\Components\TextInput::make('category')
-                    ->label('Kategori')
-                    ->maxLength(100),
             ]);
     }
 
@@ -71,22 +66,19 @@ class DetailedScoreResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('indicator')
-                    ->label('Indikator')
+                Tables\Columns\TextColumn::make('aspect')
+                    ->label('Aspek')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('score')
                     ->label('Skor')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('weight')
-                    ->label('Bobot')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('category')
-                    ->label('Kategori')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('weighted_score')
-                    ->label('Skor x Bobot')
-                    ->getStateUsing(fn ($record) => $record->score * $record->weight),
+                    ->sortable()
+                    ->badge()
+                    ->color(fn (int $state): string => match (true) {
+                        $state >= 80 => 'success',
+                        $state >= 60 => 'warning',
+                        default => 'danger',
+                    }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Dibuat')
                     ->dateTime('d/m/Y H:i')
