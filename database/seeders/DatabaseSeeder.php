@@ -13,9 +13,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Call the RolePermissionSeeder first
+        // Call the RolePermissionSeeder first, then UserSeeder
         $this->call([
             RolePermissionSeeder::class,
+            UserSeeder::class,
             NewsCategorySeeder::class,
             NewsSeeder::class,
             EventSeeder::class,
@@ -59,14 +60,15 @@ class DatabaseSeeder extends Seeder
             BudgetRealizationSeeder::class,
             AssistanceProgramSeeder::class,
             RecipientCategorySeeder::class,
-
+            // Add missing seeders
+            FinancialReportSeeder::class,
+            TransparencyScoreSeeder::class,
+            DetailedScoreSeeder::class,
+            PublicInformationSeeder::class,
+            VillageInfoSeeder::class,
+            QuickServiceSeeder::class,
         ]);
 
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Users are now created in UserSeeder with proper roles
     }
 }
